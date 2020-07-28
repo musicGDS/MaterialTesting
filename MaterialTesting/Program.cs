@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using NUnit.Framework;
 
 namespace MaterialTesting
 {
@@ -8,13 +9,53 @@ namespace MaterialTesting
     {
         public static void Main(string[] args)
         {
-            test1_Autocompleate();
+            //test1_Autocompleate();
+            test2_Badge();
+
         }
 
         public static void test1_Autocompleate()
         {
-            string result = "two";
+            string expResult = "Two";
             // Create a driver instance for chromedriver
+            IWebDriver driver = new ChromeDriver();
+
+            //Navigate to google page
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+            
+            //Maximize the window
+            driver.Manage().Window.Maximize();
+
+            //Navigate to Autocomplete page
+
+            driver.FindElement(By.XPath("//div[text() = 'Autocomplete']")).Click();
+
+            //Wait the page to load
+
+            System.Threading.Thread.Sleep(1000);
+
+            // Write an half of input and press selection
+
+            
+            IWebElement field = driver.FindElement(By.Id("mat-input-0"));
+
+            field.SendKeys("Tw");
+
+            driver.FindElement(By.XPath("//span[@class='mat-option-text']")).Click();
+
+            string result = field.GetAttribute("value");
+
+            driver.Close();
+
+            Assert.Equals(result, expResult);
+            
+        }
+
+        public static void test2_Badge()
+        {
+
+            string badgeCss = "mat-badge-hidden";
+
             IWebDriver driver = new ChromeDriver();
 
             //Navigate to google page
@@ -25,29 +66,26 @@ namespace MaterialTesting
 
             //Navigate to Autocomplete page
 
-            driver.FindElement(By.XPath("//div[text() = 'Autocomplete']")).Click();
+            driver.FindElement(By.XPath("//div[text() = 'Badge']")).Click();
 
+            //Wait the page to load
 
-            // Write an half of input and press enter
+            System.Threading.Thread.Sleep(1000);
 
-            IWebElement element = driver.FindElement(By.XPath("//input[@id='mat-input-0']"));
-            //IWebElement element = driver.FindElement(By.Id("mat-input-0"));
-            //IWebElement element = driver.FindElement(By.XPath("");
+            IWebElement button = driver.FindElement(By.XPath("//button[@class='mat-focus-indicator mat-badge mat-raised-button mat-button-base mat-badge-overlap mat-badge-above mat-badge-after mat-badge-medium']"));
 
+            button.Click();
+            // Check if element has class
 
-            element.SendKeys("Tw");
-            
+           string classes = button.GetAttribute("class");
 
-            element.Click();
+            Assert.Contains(classes, badgeCss);
+        Console.ReadLine();
 
-
-            string end = Console.ReadLine();
             driver.Close();
         }
-
 
     }
 }
 
 
-//<input _ngcontent-ewa-c154="" type="text" aria-label="Number" matinput="" class="mat-input-element mat-form-field-autofill-control mat-autocomplete-trigger ng-tns-c144-6 ng-pristine ng-valid cdk-text-field-autofill-monitored ng-touched" id="mat-input-0" data-placeholder="Pick one" aria-invalid="false" aria-required="false" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-haspopup="true">
