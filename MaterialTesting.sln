@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaterialTesting", "MaterialTesting\MaterialTesting.csproj", "{BD880FAE-54AE-40C0-B98F-D0D33872A499}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|anycpu = Debug|anycpu
+		Release|anycpu = Release|anycpu
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD880FAE-54AE-40C0-B98F-D0D33872A499}.Debug|anycpu.ActiveCfg = Debug|anycpu
+		{BD880FAE-54AE-40C0-B98F-D0D33872A499}.Debug|anycpu.Build.0 = Debug|anycpu
+		{BD880FAE-54AE-40C0-B98F-D0D33872A499}.Release|anycpu.ActiveCfg = Release|anycpu
+		{BD880FAE-54AE-40C0-B98F-D0D33872A499}.Release|anycpu.Build.0 = Release|anycpu
+	EndGlobalSection
+EndGlobal
