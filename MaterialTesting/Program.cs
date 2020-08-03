@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using NUnit.Framework;
+using OpenQA.Selenium.Interactions;
 
 namespace MaterialTesting
 {
@@ -16,12 +17,25 @@ namespace MaterialTesting
             //test3_bottomSheet();
             //test4_Button();
             //test5_ButtonToggle();
-            test6_Checkbox();
+            //test6_Checkbox();
             //test7_Chips();
             //test8_Datepicker();
             //test9_Dialog();
             //test10_ExpansionPanel();
+            //test11_formField();
             //test12_Paginator();
+            //test13_RadioButton();
+            //test14_Select();
+            //test15_SlideToggle();
+            //test16_Slider();
+            //test17_SnackBar();
+            //test18_SortHeader();
+            //test19_Stepper();
+            //test20_Tabs();
+            //test21_Tree();
+
+            //test22_FormField();
+
         }
 
         [Test]
@@ -363,16 +377,30 @@ namespace MaterialTesting
             Assert.IsTrue(panelPresent);
         }
 
-        //public static void test11_formField()
-        //{
-        //    IWebDriver driver = new ChromeDriver();
+        public static void test11_formField()
+        {
+            string testString = "Test";
 
-        //    driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+            IWebDriver driver = new ChromeDriver();
 
-        //    driver.FindElement(By.XPath("//div[text() = 'Form Field']")).Click();
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
 
-        //    System.Threading.Thread.Sleep(5000);
-        //}
+            driver.FindElement(By.XPath("//div[text() = 'Form field']")).Click();
+
+            System.Threading.Thread.Sleep(1000);
+
+            IWebElement inputField = driver.FindElement(By.XPath("//html//body//material-docs-app//app-component-sidenav//mat-sidenav-container//mat-sidenav-content//div//div//main//app-component-viewer//div//div//component-overview//doc-viewer//div//div//example-viewer//div//div//form-field-overview-example//div//mat-form-field//div//div//div//input"));
+
+            inputField.SendKeys(testString);
+
+            string actualString = inputField.GetAttribute("value");
+
+            driver.Close();
+
+            Assert.That(testString == actualString);
+
+
+        }
 
         [Test]
 
@@ -398,6 +426,266 @@ namespace MaterialTesting
             driver.Close();
 
             Assert.AreEqual(expectedValue, actualValue);  
+
+        }
+
+        public static void test13_RadioButton()
+        {
+
+            // Check if button is unpressed when another button is pressed
+
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+
+            driver.FindElement(By.XPath("//div[text() = 'Radio button']")).Click();
+
+            System.Threading.Thread.Sleep(5000);
+
+            IWebElement button1 = driver.FindElement(By.XPath("//body//mat-radio-button[1]"));
+
+            IWebElement button2 = driver.FindElement(By.XPath("//body//mat-radio-button[2]"));
+
+            string uncheckedButtonClass = button1.GetAttribute("class");
+
+            button1.Click();
+
+            Assert.That(uncheckedButtonClass != button1.GetAttribute("class"));
+
+            button2.Click();
+
+            Assert.That(uncheckedButtonClass == button1.GetAttribute("class"));
+
+            driver.Close();
+        }
+
+        public static void test14_Select()
+        {
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+
+            driver.FindElement(By.XPath("//div[text() = 'Select']")).Click();
+
+            System.Threading.Thread.Sleep(5000);
+
+            bool selectIsVisible = driver.FindElements(By.XPath("//body/div/div/div/div/div[1]")).Count != 0;
+
+            driver.FindElement(By.XPath("//body/material-docs-app/app-component-sidenav/mat-sidenav-container/mat-sidenav-content/div/div/main/app-component-viewer/div/div/component-overview/doc-viewer/div/div/example-viewer/div/div/select-overview-example/mat-form-field[1]/div[1]/div[1]/div[1]")).Click();
+
+            selectIsVisible = driver.FindElements(By.XPath("//body/div/div/div/div/div[1]")).Count != 0;
+
+            driver.Close();
+
+            Assert.IsTrue(selectIsVisible);
+        }
+
+        public static void test15_SlideToggle()
+        {
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+
+            driver.FindElement(By.XPath("//div[text() = 'Slide toggle']")).Click();
+
+            System.Threading.Thread.Sleep(5000);
+
+            IWebElement slider = driver.FindElement(By.XPath("//html//body//material-docs-app//app-component-sidenav//mat-sidenav-container//mat-sidenav-content//div//div//main//app-component-viewer//div//div//component-overview//doc-viewer//div//div//example-viewer//div//div//slide-toggle-overview-example//mat-slide-toggle"));
+
+            string sliderClassBefore = slider.GetAttribute("class");
+
+            slider.Click();
+
+            string sliderClassAfter = slider.GetAttribute("class");
+
+            driver.Close();
+
+            Assert.That(sliderClassBefore != sliderClassAfter);
+        }
+
+        public static void test16_Slider()
+        {
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+
+            driver.FindElement(By.XPath("//div[text() = 'Slider']")).Click();
+
+            System.Threading.Thread.Sleep(5000);
+
+            IWebElement slider = driver.FindElement(By.XPath("//mat-slider[@class='mat-slider mat-focus-indicator mat-accent mat-slider-horizontal mat-slider-min-value']//div[@class='mat-slider-thumb']"));
+
+            IWebElement sliderValue = driver.FindElement(By.XPath("//html//body//material-docs-app//app-component-sidenav//mat-sidenav-container//mat-sidenav-content//div//div//main//app-component-viewer//div//div//component-overview//doc-viewer//div//div//example-viewer//div//div//slider-overview-example//mat-slider"));
+
+            Actions act = new Actions(driver);
+
+            string valueBefore = sliderValue.GetAttribute("aria-valuenow");
+
+            act.DragAndDropToOffset(slider, 50, 0).Build().Perform();
+
+            string valueAfter = sliderValue.GetAttribute("aria-valuenow");
+
+            Assert.That(valueBefore != valueAfter);
+
+            driver.Close();
+        }
+
+        public static void test17_SnackBar()
+        {
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+
+            driver.FindElement(By.XPath("//div[text() = 'Snackbar']")).Click();
+
+            System.Threading.Thread.Sleep(1000);
+
+            driver.FindElement(By.XPath("//button[@class='mat-focus-indicator mat-stroked-button mat-button-base']")).Click();
+
+            bool snackBarNotPresent = driver.FindElements(By.XPath("//div[@class='cdk-overlay-container']")).Count == 0;
+
+            System.Threading.Thread.Sleep(3000);
+
+            bool snackBarNotPresent2 = driver.FindElements(By.XPath("//div[@class='cdk-overlay-container']")).Count == 0;
+
+            Console.WriteLine(snackBarNotPresent);
+
+            Console.WriteLine(snackBarNotPresent2);
+
+            Console.ReadLine();
+        }
+
+        public static void test18_SortHeader()
+        {
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+
+            driver.FindElement(By.XPath("//div[text() = 'Sort header']")).Click();
+
+            System.Threading.Thread.Sleep(5000);
+
+            string startText = driver.FindElement(By.XPath("//sort-overview-example//tr[2]//td[1]")).Text;
+
+            Console.WriteLine(startText);
+
+            driver.FindElement(By.XPath("//div[contains(text(),'Dessert (100g)')]")).Click();
+
+            System.Threading.Thread.Sleep(1000);
+
+            string afterText = driver.FindElement(By.XPath("//sort-overview-example//tr[2]//td[1]")).Text;
+
+            Assert.That(startText != afterText);
+        }
+
+        public static void test19_Stepper()
+        {
+            //NOT FINISHED
+
+            string name = "Petras";
+
+            string address = "5 Willow st";
+
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+
+            driver.FindElement(By.XPath("//div[text() = 'Stepper']")).Click();
+
+            System.Threading.Thread.Sleep(5000);
+
+            IWebElement nameInput = driver.FindElement(By.XPath("//stepper-overview-example//div[1]//form[1]//mat-form-field[1]//div[1]//div[1]//div[1]//input[1]"));
+
+            IWebElement addressInput = driver.FindElement(By.XPath("//stepper-overview-example//div//div[2]//form[1]//mat-form-field[1]//div[1]//div[1]//div[1]//input[1]"));
+
+            nameInput.SendKeys(name);
+
+            // Next
+
+            driver.FindElement(By.XPath("//stepper-overview-example[@class='ng-star-inserted']//div[1]//form[1]//div[1]//button[1]")).Click();
+
+            addressInput.SendKeys(address);
+
+            //Next
+
+            driver.FindElement(By.XPath("//body//stepper-overview-example//form//button[2]")).Click();
+
+            //Back
+
+            driver.FindElement(By.XPath("//body/material-docs-app/app-component-sidenav/mat-sidenav-container/mat-sidenav-content/div/div/main/app-component-viewer/div/div/component-overview/doc-viewer/div/div/example-viewer/div/div/stepper-overview-example/mat-horizontal-stepper/div/div/div/button[1]")).Click();
+
+            Assert.That(address == addressInput.GetAttribute("value"));
+
+            //Back
+
+            driver.FindElement(By.XPath("//stepper-overview-example//div//div[2]//form[1]//div[1]//button[1]")).Click();
+
+            Assert.That(name == nameInput.GetAttribute("value"));
+        }
+
+        public static void test20_Tabs()
+        {
+          
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+
+            driver.FindElement(By.XPath("//div[text() = 'Tabs']")).Click();
+
+            System.Threading.Thread.Sleep(5000);
+
+            string result1 = driver.FindElement(By.XPath("//mat-tab-body[1]//div[1]")).Text;
+
+            driver.FindElement(By.XPath("//div[@class='mat-tab-label-container']//div[2]")).Click();
+
+            string result2 = driver.FindElement(By.XPath("//mat-tab-body[2]//div[1]")).Text;
+
+            driver.Close();
+
+            Assert.That(result1 != result2);
+
+        }
+
+        public static void test21_Tree()
+        {
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+
+            driver.FindElement(By.XPath("//div[text() = 'Tree']")).Click();
+
+            System.Threading.Thread.Sleep(1000);
+
+            driver.FindElement(By.XPath("//mat-tree-node[1]//button[1]//span[1]//mat-icon[1]")).Click();
+
+            int subCount = driver.FindElements(By.XPath("//tree-flat-overview-example//mat-tree-node[1]//button")).Count;
+
+            Console.WriteLine(subCount);
+
+            Console.ReadLine();
+
+        }
+
+        public static void test22_FormField()
+        {
+            string testString = "Test";
+
+            IWebDriver driver = new ChromeDriver();
+
+            driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
+
+            driver.FindElement(By.XPath("//div[text() = 'Form field']")).Click();
+
+            System.Threading.Thread.Sleep(1000);
+
+            IWebElement inputField = driver.FindElement(By.XPath("//html//body//material-docs-app//app-component-sidenav//mat-sidenav-container//mat-sidenav-content//div//div//main//app-component-viewer//div//div//component-overview//doc-viewer//div//div//example-viewer//div//div//form-field-overview-example//div//mat-form-field//div//div//div//input"));
+
+            inputField.SendKeys(testString);
+
+            string actualString = inputField.GetAttribute("value");
+
+
+            Assert.That(testString == actualString);
 
         }
 
