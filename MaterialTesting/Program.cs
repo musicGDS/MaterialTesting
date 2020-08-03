@@ -32,7 +32,7 @@ namespace MaterialTesting
             //test18_SortHeader();
             //test19_Stepper();
             //test20_Tabs();
-            //test21_Tree();
+            test21_Tree();
 
             //test22_FormField();
 
@@ -648,6 +648,8 @@ namespace MaterialTesting
 
         public static void test21_Tree()
         {
+            string expected = "Apple";
+
             IWebDriver driver = new ChromeDriver();
 
             driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
@@ -658,11 +660,11 @@ namespace MaterialTesting
 
             driver.FindElement(By.XPath("//mat-tree-node[1]//button[1]//span[1]//mat-icon[1]")).Click();
 
-            int subCount = driver.FindElements(By.XPath("//tree-flat-overview-example//mat-tree-node[1]//button")).Count;
+            string applePresent = driver.FindElement(By.XPath("//mat-tree-node[contains(text(),'Apple')]")).Text;
 
-            Console.WriteLine(subCount);
+            driver.Close();
 
-            Console.ReadLine();
+            Assert.That(expected == applePresent);
 
         }
 
@@ -686,7 +688,6 @@ namespace MaterialTesting
 
 
             Assert.That(testString == actualString);
-
         }
 
     }
