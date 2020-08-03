@@ -16,12 +16,12 @@ namespace MaterialTesting
             //test3_bottomSheet();
             //test4_Button();
             //test5_ButtonToggle();
-            //test6_Checkbox();
+            test6_Checkbox();
             //test7_Chips();
             //test8_Datepicker();
             //test9_Dialog();
             //test10_ExpansionPanel();
-            test12_Paginator();
+            //test12_Paginator();
         }
 
         [Test]
@@ -221,7 +221,7 @@ namespace MaterialTesting
         [Test]
         public static void test6_Checkbox()
         {
-            //NOT FINISHED!!!!
+           
             IWebDriver driver = new ChromeDriver();
 
             driver.Navigate().GoToUrl("https://material.angular.io/components/categories");
@@ -236,14 +236,12 @@ namespace MaterialTesting
 
             System.Threading.Thread.Sleep(5000);
 
-            driver.FindElement(By.XPath("//mat-checkbox[@class='mat-checkbox example-margin mat-accent mat-checkbox-checked']")).Click();
+            string isChecked = driver.FindElement(By.XPath("//body/material-docs-app/app-component-sidenav/mat-sidenav-container/mat-sidenav-content/div/div/main/app-component-viewer/div/div/component-overview/doc-viewer/div/div/example-viewer/div/div/checkbox-overview-example/section/mat-checkbox[1]/label[1]/div[1]/input[1]")).GetAttribute("aria-checked");
 
-            int isChecked = driver.FindElements(By.XPath("//mat-checkbox[@class='mat-checkbox example-margin mat-accent mat-checkbox-checked']")).Count;
+            driver.Close();
 
-            Console.WriteLine(isChecked);
-
-            //Assert.IsTrue(checkbox.GetAttribute(""));
-            Console.ReadLine();
+            Assert.That(isChecked == "true");
+      
         }
 
         [Test]
